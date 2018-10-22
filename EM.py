@@ -1,4 +1,6 @@
-def get_abundance_contig3(G, con_profile, vertex, align_dict):
+import numpy as np
+
+def get_abundance_on_contig(G, con_profile, vertex, align_dict):
     # different algorith to get the abundance
     # get locations for each contig in the window
 
@@ -63,8 +65,7 @@ def get_abundance_contig3(G, con_profile, vertex, align_dict):
     align_contigs = [0] * len(map_idx)
     for con, idx in map_idx.iteritems():
         align_contigs[idx] = con
-    print
-    align_contigs
+    print align_contigs
 
     # get all potential windows
     win_start, win_end = 1, 1

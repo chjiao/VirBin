@@ -1,3 +1,4 @@
+import networkx as nx
 
 def DFS_transitive_reduction(G):
     for u in G.nodes():
@@ -46,5 +47,4 @@ def get_graph_from_loc(loc_file):
                        G.add_edge(con1, con2, align = [align_start1, align_end1, con_len1, align_start2, align_end2, con_len2],profile=[align1, align2])
                    else:
                        G.add_edge(con2, con1, align = [align_start2, align_end2, con_len2, align_start1, align_end1, con_len1],profile=[align2, align1])
-    #DFS_transitive_reduction(G)
     return G
