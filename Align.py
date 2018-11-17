@@ -47,9 +47,41 @@ def process_loc(loc_file, out_file):
         align = align_dict[align_key]
         f_out.write('\n'.join(align[:5]))
         f_out.write('\n')
+    f_out.close()
+
+def get_reference(loc_file, out_file):
+    # find the reference for contigs
+    align_dict = {}
+    lineno = 0
+    with open(loc_file,'r') as f:
+        for line in f:
+           lineno+=1
+           if lineno%5==1:
+               lmap1=line.strip().split()
+               line1 = line.strip()
+               if len(lmap1)<3:
+                   pdb.set_trace()
+               con1, con2, simi = lmap1[0], lmap1[1], float(lmap1[2])
+           elif lineno%5==2:
+               lmap2=line.strip().split()
+               line2 = line.strip()
+               con1, con_len1, align_start1, align_end1 = lmap2[0], int(lmap2[1]), int(lmap2[2]), int(lmap2[3])
+               align_len = align_end1 - align_start1 + 1
+               
+               if not con1 in align_dict:
+                   align_dict[con1] = [con2, simi, align_len, con_len1]
+               elif simi > align_dict[con1][1]:
+                   align_dict[con1] = [con2, simi, align_len, con_len1]
+    
+    f_out = open(out_file, 'w')
+    for align in align_dict:
+        f_out.write(align+'\t'+align_dict[align][0]+'\t'+str(align_dict[align][1])+'\t'+str(align_dict[align][3])+'\t'+str(align_dict[align][2])+'\n')
+    f_out.close()
 
 def main():
     loc_file = sys.argv[1]
     out_file = sys.argv[2]
-    process_loc(loc_file, out_file)
+    #process_loc(loc_file, out_file)
+    get_reference(loc_file, out_file)
 
+main()

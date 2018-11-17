@@ -1,4 +1,5 @@
-import pdb
+import re,sys,pdb
+import numpy as np
 
 
 def read_fa(fa_file):

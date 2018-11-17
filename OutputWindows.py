@@ -4,17 +4,24 @@ from Graph import *
 from lib import *
 from OutputFiles import *
 from EM import *
+from Align import *
 
-sort_ref = ['JRCSF', 'NL43', '89.6', 'YU2', 'HXB2']
+ref_dict = {'FJ061':0.392531290961,
+        'FJ061_h1':0.233236526254,
+        'FJ061_h2':0.159603176643,
+        'FJ061_h3':0.128119458223,
+        'FJ066':0.0865095479195} # The ground truth abundance on each haplotype
+sort_ref = ['FJ061', 'FJ061_h1', 'FJ061_h2','FJ061_h3', 'FJ066']
 
-ref_dict = {} # The ground truth abundance on each haplotype
-fa_file = sys.argv[1]
+
+fa_file = sys.argv[1]  # contig file input
 loc_file = sys.argv[2]
 vcf_file = sys.argv[3]
-ref_loc_file = '/mnt/home/chenjiao/research/Project-virus/Evaluation_comparison/DT_meta/Contig_abundance/nodes_sequence_5vm.blastn'
+ref_loc_file = '/mnt/home/chenjiao/research/Project-virus/Evaluation_comparison/DT_meta/Contig_abundance/HIV_simulate/contigs_simulate/hiv_simulate_5_contigs_ref.blastn'
 
 fa_dict = read_fa(fa_file)
-G = get_graph_from_loc(loc_file)
+process_loc(loc_file, 'preprocessed.blastn')
+G = get_graph_from_loc('preprocessed.blastn')
 con_profile = read_vcf_profile(vcf_file, fa_dict)
 align_dict = get_aligned_contigs(ref_loc_file)
 
@@ -28,7 +35,7 @@ all_windows = []
 win_con_dict = {}
 contig_windows = []
 for con in fa_dict:
-    win_results, A, map_idx, align_locs = get_abundance_on_contig(G, con_profile, con, align_dict)
+    win_results, A, map_idx, align_locs = get_abundance_on_contig(G, con_profile, con, fa_dict, align_dict)
     output_windows(G, win_results, A, map_idx, align_dict, ref_dict, f2)
     win_results = sorted(win_results, key=lambda win: (win.length, np.mean(win.coverage)), reverse=True)
     all_windows.extend(win_results)
@@ -85,3 +92,6 @@ for win in all_windows:
         f3.write(res[0] + '\t' + str(round(res[2], 4)) + '\t' + str(round(res[3], 2)) + '\t' + res[1] + '\t' + str(
             ref_dict[res[1]]) + '\n')
 f3.close()
+
+
+

@@ -1,3 +1,4 @@
+import numpy as np
 
 def output_windows(G, win_results, A, map_idx, align_dict, ref_dict, f_out):
     idx_map = {}

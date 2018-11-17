@@ -12,8 +12,6 @@ import math
 # plot the alignment results for blastn
 # update with BFS search 
 
-
-
 def get_abundance(G, con_profile):
     # G: a connected graph
     height = len(G)

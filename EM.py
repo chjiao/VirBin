@@ -1,7 +1,25 @@
+import pdb
 import numpy as np
+from lib import *
 
-def get_abundance_on_contig(G, con_profile, vertex, align_dict):
-    # different algorith to get the abundance
+
+def get_align_profile(profile, start, end, align_seq1, align_seq2):
+    assert len(align_seq1)==len(align_seq2), "Align sequences error!"
+    align_len = len(align_seq1)
+    A = np.zeros(align_len)
+    con_profile = profile[start-1:end]
+    idx = 0
+    rm_idx = []
+    for i in range(align_len):
+        if align_seq1[i]!='-':
+            A[i] = con_profile[idx]
+            idx+=1
+        if align_seq2[i]=='-':
+            rm_idx.append(i)
+    A = np.delete(A, rm_idx)
+    return A
+
+def get_abundance_on_contig(G, con_profile, vertex, fa_dict, align_dict):
     # get locations for each contig in the window
 
     height = G.in_degree(vertex) + G.out_degree(vertex) + 1
