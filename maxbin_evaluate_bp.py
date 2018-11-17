@@ -8,7 +8,7 @@ def get_predict_ref(marker_gene, align_dict):
     with open(marker_gene, 'r') as f:
         for line in f:
             gene = line.strip()
-            assert gene in align_dict, "Error: reference not found"
+            assert gene in align_dict, "Error: reference not found "+ gene
             result.append(align_dict[gene])
     return result
 
@@ -20,11 +20,13 @@ def read_maxbin_results(maxbin_summary):
     with open(maxbin_summary, 'r') as f:
         for line in f:
             line = line.strip()
-            if line.startswith("Bin"):
+            if line.startswith("Bin ["):
                 if group:
                     result.append(group)
                     con_num += len(group)
                     group = []
+            elif line.startswith("Bins without"):
+                break
             else:
                 if line:
                     group.append(line.split()[0])
@@ -58,8 +60,12 @@ def evaluate_bp(cluster, align_dict, contig_dict, ground_truth):
 
     precision, recall = {}, {}
     for ref in ground_truth:
-        precision[ref] = float(TP_length[ref])/pred_length[ref]
-        recall[ref] = float(TP_length[ref])/ground_truth_length[ref]
+        if ref in pred_length:
+            precision[ref] = float(TP_length[ref])/pred_length[ref]
+            recall[ref] = float(TP_length[ref])/ground_truth_length[ref]
+        else:
+            precision[ref] = 0
+            recall[ref] = 0
     return precision, recall
 
 def preprocess_align_dict(align_dict):

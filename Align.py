@@ -81,7 +81,7 @@ def get_reference(loc_file, out_file):
 def main():
     loc_file = sys.argv[1]
     out_file = sys.argv[2]
-    #process_loc(loc_file, out_file)
-    get_reference(loc_file, out_file)
+    process_loc(loc_file, out_file)
+    #get_reference(loc_file, out_file)
 
 #main()
