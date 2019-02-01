@@ -31,7 +31,7 @@ def process_loc(loc_file, out_file):
                #if not (align_end1-align_start1>con_len1/2 or align_end2-align_start2>con_len2/2):
                align_len1 = align_end1-align_start1 + 1
                align_len2 = align_end2-align_start2 + 1
-               if not (align_end1-align_start1>100 and (align_end2-align_start2)>100):
+               if not (abs(align_end1-align_start1)>100 and abs(align_end2-align_start2)>100):
                    continue
 
                align_key = tuple(sorted([con1, con2]))
@@ -84,4 +84,4 @@ def main():
     process_loc(loc_file, out_file)
     #get_reference(loc_file, out_file)
 
-#main()
+main()
