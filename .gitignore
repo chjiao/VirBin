@@ -5,4 +5,10 @@ ReadFiles.pyc
 lib.pyc
 OutputFiles.pyc
 Align.pyc
+Windows.pyc
+preprocessed.blastn
+contigs_windows.txt
+EM_clusters.txt
+VirBin.pyc
+windows_all.txt
 .idea/

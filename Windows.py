@@ -2,7 +2,7 @@ import pdb
 import numpy as np
 from lib import *
 
-def get_subcontigs_from_windows(all_windows):
+def get_subcontigs_from_windows(all_windows, align_dict):
     windows_list = []
     for win in all_windows:
         tmp_results = []

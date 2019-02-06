@@ -1,9 +1,14 @@
-import re,sys,pdb
+from Align import *
 import numpy as np
 
 
 def read_fa(fa_file):
+    """
     # key: title; value: sequence
+    :param fa_file:
+    :return:
+    """
+
     seq_dict = {}
     title = ''
     seq = ''
@@ -40,9 +45,13 @@ def read_vcf_profile(vcf_file, contig_dict):
 
 
 def get_aligned_contigs(loc_file):
-    # get contigs aligned to references
+    """
+    Get contigs aligned to references
+    :param loc_file:
+    :return:
+    """
+
     lineno = 0
-    loc_dict = {}
     simi_dict = {}
     align_dict = {}
     with open(loc_file, 'r') as f:
@@ -55,9 +64,6 @@ def get_aligned_contigs(loc_file):
                 lmap2 = line.strip().split()
             elif lineno % 5 == 3:
                 lmap3 = line.strip().split()
-                # contig_1_13812  89.6_9669:      99.9
-                # contig_1_1381   13812   1       9650
-                # 89.6    9669    2       9651
                 con_len, align_start, align_end = int(lmap2[1]), int(lmap2[2]), int(lmap2[3])
                 if align_start > align_end:
                     pdb.set_trace()
@@ -73,3 +79,4 @@ def get_aligned_contigs(loc_file):
                     simi_dict[con] = similarity
                     align_dict[con] = ref
     return align_dict
+
