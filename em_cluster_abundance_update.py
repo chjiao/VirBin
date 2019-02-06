@@ -1430,27 +1430,3 @@ f = open('Nearest_pair.txt', 'w')
 cluster = cluster_nearest_window2(windows_5_list)
 f.close()
 #"""
-
-"""
-f_out = open('windows_clusters.txt', 'w')
-win_clusters = cluster_windows(all_windows)
-idx = 0
-for win in win_clusters:
-    idx+=1
-    out_line=''
-    for i in range(len(win.contig)):
-        out_line+=win.contig[i]+'\t'+str(round(win_con_dict[win.contig[i]],4))+'\t'
-    f_out.write('Cluster_'+str(idx)+'\n'+out_line+'\n')
-    
-    truth = []
-    for con in win.contig:
-        ref = align_dict[con].split('_')[0]
-        truth.append(align_dict[con])
-        truth.append(str(ref_dict[ref]))
-    f_out.write('\t'.join(truth)+'\n\n')
-f_out.close()
-"""
-
-
-#f_out = open('windows_clusters_k_means.txt', 'w')
-#cluster_windows_k(contig_windows, 5, align_dict, ref_dict, f_out)

@@ -21,11 +21,10 @@ def get_align_profile(profile, start, end, align_seq1, align_seq2):
 
 def get_abundance_on_contig(G, con_profile, vertex, fa_dict, align_dict):
     # get locations for each contig in the window
-
     height = G.in_degree(vertex) + G.out_degree(vertex) + 1
     width = len(fa_dict[vertex])
     A = np.zeros((height, width))
-    B = np.zeros(width)
+    B = np.zeros(width) # Array to record the aligned contigs depth
     C = np.zeros((height, width))
     B[:] += 1
     C[0][:] = 1
@@ -42,15 +41,13 @@ def get_abundance_on_contig(G, con_profile, vertex, fa_dict, align_dict):
         map_idx[succ_node] = idx
         start1, end1, con_len1, start2, end2, con_len2 = G[vertex][succ_node]['align']
         align_seq1, align_seq2 = G[vertex][succ_node]['profile']
-        con_align_start1 = pos_start + start1 - 1  # align position on X-Y
+        con_align_start1 = pos_start + start1 - 1  # align position on X-Y, same as on reference contig
         con_align_end1 = end1 - start1 + con_align_start1
         B[start1 - 1:end1] += 1
         C[idx][start1 - 1:end1] = 1
-        if (end1 - start1) != (end2 - start2):  # insertion or deletion
+        if abs(end1 - start1) != abs(end2 - start2):  # insertion or deletion
             align_contig_profile = get_align_profile(con_profile[succ_node], start2, end2, align_seq2, align_seq1)
             A[idx][con_align_start1 - 1:con_align_end1] = align_contig_profile
-            # succ_abund = np.mean(con_profile[succ_node][start2-1:end2])
-            # A[idx][con_align_start1-1:con_align_end1] = succ_abund
         else:
             A[idx][con_align_start1 - 1:con_align_end1] += con_profile[succ_node][start2 - 1:end2]
         idx += 1
@@ -68,8 +65,6 @@ def get_abundance_on_contig(G, con_profile, vertex, fa_dict, align_dict):
             # print pre_node
             align_contig_profile = get_align_profile(con_profile[pre_node], start2, end2, align_seq2, align_seq1)
             A[idx][con_align_start1 - 1:con_align_end1] = align_contig_profile
-            # pre_abund = np.mean(con_profile[pre_node][start2-1:end2])
-            # A[idx][con_align_start1-1:con_align_end1] = pre_abund
         else:
             A[idx][con_align_start1 - 1:con_align_end1] += con_profile[pre_node][start2 - 1:end2]
         idx += 1
@@ -93,8 +88,6 @@ def get_abundance_on_contig(G, con_profile, vertex, fa_dict, align_dict):
             if B[i] > 1:
                 win_end = i + 1
                 win_tmp = Window(vertex, win_start, win_end, B[i])
-                # win_tmp.coverage = A[0][win_start-1:win_end]
-                # win_tmp.abundance = A_abund[0][win_start-1:win_end]
                 win_tmp.coverage = A
                 win_tmp.abundance = A_abund
                 win_tmp.aligns = align_contigs
@@ -108,14 +101,13 @@ def get_abundance_on_contig(G, con_profile, vertex, fa_dict, align_dict):
     if win_start > win_end and B[width - 1] > 1:
         win_end = width
         win_tmp = Window(vertex, win_start, win_end, B[width - 1])
-        # win_tmp.coverage = A[0][win_start-1:win_end]
-        # win_tmp.abundance = A_abund[0][win_start-1:win_end]
         win_tmp.coverage = A
         win_tmp.abundance = A_abund
         win_tmp.aligns = align_contigs
         win_tmp.profile = C
         win_tmp.align_locs = align_locs
-        # win_tmp.abund_mean = win_tmp.get_abund_mean()
         win_results.append(win_tmp)
     return win_results, A_abund, map_idx, align_locs
+
+
 

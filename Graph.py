@@ -36,7 +36,7 @@ def get_graph_from_loc(loc_file):
            elif lineno%5==0:
                align2 = line.strip()
                #if not (align_end1-align_start1>con_len1/2 or align_end2-align_start2>con_len2/2):
-               if not (align_end1-align_start1>100 and (align_end2-align_start2)>100):
+               if not abs(align_end1-align_start1>100 and abs(align_end2-align_start2)>100):
                    continue
                if align_start1>align_start2:
                    G.add_edge(con1, con2, align = [align_start1, align_end1, con_len1, align_start2, align_end2, con_len2], profile=[align1, align2])
@@ -48,3 +48,4 @@ def get_graph_from_loc(loc_file):
                    else:
                        G.add_edge(con2, con1, align = [align_start2, align_end2, con_len2, align_start1, align_end1, con_len1],profile=[align2, align1])
     return G
+

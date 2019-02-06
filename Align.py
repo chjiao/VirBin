@@ -84,4 +84,5 @@ def main():
     process_loc(loc_file, out_file)
     #get_reference(loc_file, out_file)
 
-main()
+if __name__ == '__main__':
+    main()
