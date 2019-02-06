@@ -150,5 +150,6 @@ def main():
     f_out.write("Abundances:\n" + '\t'.join(marker_references) + '\n' + '\t'.join(abund_str) + '\n') 
     f_out.close()
 
-main()
+if __name__ == '__main__':
+    main()
 
