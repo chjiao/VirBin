@@ -1,4 +1,5 @@
 import sys,pdb
+from Graph import *
 from OutputFiles import *
 from EM import *
 from Windows import *
