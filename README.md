@@ -1,5 +1,9 @@
 # VirBin   
-Binning tools for strain-level viral contigs
+Binning tools for strain-level viral contigs. The input to this program should be the contigs obtained from an assembly tool. We recommend to use PEHaplo (https://www.ncbi.nlm.nih.gov/pubmed/29617936) because it is opimized for assembling viral strains. Our tests also showed that PEHaplo's output can lead to better performance for viral contig binning. 
+
+The output of this program are several sets of contigs. Each set corresponds to one haplotype (strain). The number of sets represent the number of haplotypes in the input data set. 
+
+The method is essentially an EM algorithm. However, we created "windows" rather than whole contigs as input to the EM algorithm. The contigs have highly heterogeneous coverage because some parts are unique to a haplotype and some parts are common regions to multiple haplotypes. Our method employs sequence alignment between contigs to distinguish these cases. 
 
 # Quick start
 To quickly testing the core clustering algorithm, we have prepared the processed data set in folder *data/*.
