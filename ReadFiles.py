@@ -26,6 +26,7 @@ def read_fa(fa_file):
             seq_dict[title] = seq
     return seq_dict
 
+
 def read_vcf_profile(vcf_file, contig_dict):
     con_profile_dict = {}
     for con in contig_dict:

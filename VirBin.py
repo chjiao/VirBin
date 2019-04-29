@@ -42,6 +42,7 @@ def main():
             args.bin_number = 1000
 
 
+    ## windows information on each contig
     f_out = open('contigs_windows.txt', 'w')
     all_windows = []
     for con in fa_dict:
