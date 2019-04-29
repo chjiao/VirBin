@@ -2,6 +2,7 @@ import numpy as np
 import operator
 from EM import cal_prob, evaluate_bp, evaluate_bp_whole
 
+
 def output_windows_by_contig(G, win_results, A, map_idx, align_dict, ref_dict, f_out):
     idx_map = {}
     for con, idx in map_idx.items():
@@ -21,6 +22,7 @@ def output_windows_by_contig(G, win_results, A, map_idx, align_dict, ref_dict, f
                 ref = align_dict[con]
                 ref = ref.split('_')[0]
                 f_out.write(con+'\t'+str(round(win_mean, 4))+'\t'+align_dict[con]+'\t'+str(ref_dict[ref])+'\n')
+
 
 def output_windows(all_windows, align_dict, ref_dict, file_name):
     ref_sort = sorted(ref_dict.items(), key=operator.itemgetter(1))
@@ -64,6 +66,7 @@ def output_windows(all_windows, align_dict, ref_dict, file_name):
                 ref_dict[res[1]]) + '\n')
     f_out.close()
 
+
 def output_groups_windows(group_windows_list, align_dict, ref_dict, file_name):
     f_out = open(file_name, 'w')
     for group in group_windows_list:
@@ -77,6 +80,7 @@ def output_groups_windows(group_windows_list, align_dict, ref_dict, file_name):
                     np.mean(con.abundance)) + '\t' + ref + '\t' + str(ref_dict[ref]) + '\n')
     f_out.close()
 
+
 def output_non_dup_windows(non_dup_list, align_dict, ref_dict, file_name):
     f_out = open(file_name, 'w')
     for win in non_dup_list:
@@ -87,6 +91,7 @@ def output_non_dup_windows(non_dup_list, align_dict, ref_dict, file_name):
             f_out.write(con.contig + '\t' + str(con.start) + '\t' + str(con.end) + '\t' + str(
                 np.mean(con.abundance)) + '\t' + ref + '\t' + str(ref_dict[ref]) + '\n')
     f_out.close()
+
 
 def output_cluster(cluster, distribution, align_dict, ref_dict, bin_num, file_name):
 
@@ -120,8 +125,8 @@ def output_cluster(cluster, distribution, align_dict, ref_dict, bin_num, file_na
                 np.mean(con.abundance)) + '\t' + ref + '\t' + str(
                 ref_dict[ref]) + '\t+\t' + probs + '\t+\t' + priors + '\n')
     f_out.write("Evaluation\n")
-    precision, recall = evaluate_bp(cluster, align_dict)
-    accuracy = evaluate_bp_whole(cluster, align_dict)
+    precision, recall = evaluate_bp(cluster, align_dict, ref_dict)
+    accuracy = evaluate_bp_whole(cluster, align_dict, ref_dict)
     for ref in ground_truth:
         f_out.write(ref + '\t' + str(precision[ref]) + '\t' + str(recall[ref]) + '\n')
     f_out.write("Evaluation\n")

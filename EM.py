@@ -1,5 +1,6 @@
 import pdb
 import numpy as np
+import operator
 from lib import *
 from ReadFiles import *
 
@@ -345,8 +346,28 @@ def EM_cluster_gibbs(win_list, k, bin_num):
     return new_cluster, distribution, adjust_cluster
 
 
-def evaluate_bp(cluster, align_dict):
-    TP_length = dict(zip(ground_truth, [0]*len(ground_truth)))
+def get_ground_truth(ref_dict):
+    """
+    Generate the ground truth list
+    :param ref_dict:
+    :return: a list of haplotype names corresponding to cluster-0, cluster-1, etc.
+    """
+    ref_sort = sorted(ref_dict.items(), key=operator.itemgetter(1))
+    ground_truth = [x[0] for x in ref_sort]
+    return ground_truth
+
+
+def evaluate_bp(cluster, align_dict, ref_dict):
+    """
+    Calculate the precision and recall for each haplotype (cluster)
+    :param cluster:
+    :param align_dict:
+    :param ref_dict:
+    :return: Two lists of precision and recall
+    """
+    ground_truth = get_ground_truth(ref_dict)
+
+    TP_length = dict(zip(ground_truth, [0]*len(ground_truth))) # dictionary for true positive on each haplotype
     ground_truth_length = {}
     pred_length = {}
     idx = 0
@@ -372,8 +393,18 @@ def evaluate_bp(cluster, align_dict):
             recall[ref] = float(TP_length[ref])/ground_truth_length[ref]
     return precision, recall
 
-def evaluate_bp_whole(cluster, align_dict):
-    #TP_length = {'HXB2':0, 'YU2':0, '89.6':0, 'NL43':0, 'JRCSF':0}
+
+def evaluate_bp_whole(cluster, align_dict, ref_dict):
+    """
+    Calculate the accuracy for all the clusters,
+    the accuracy is defined as True_positive_length/Total_contigs_length
+    :param cluster:
+    :param align_dict:
+    :param ref_dict:
+    :return: accuracy
+    """
+    ground_truth = get_ground_truth(ref_dict)
+
     TP_length = dict(zip(ground_truth, [0]*len(ground_truth)))
     ground_truth_length = {}
     pred_length = {}
