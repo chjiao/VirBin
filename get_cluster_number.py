@@ -78,3 +78,6 @@ def main():
     counts = np.bincount(tmp)
     k = np.argmax(counts)
     print "number of cluter: " +str(k)
+    
+if __name__ == '__main__':
+    main()
