@@ -4,7 +4,7 @@ from OutputFiles import *
 from EM import *
 from Windows import *
 import argparse
-
+import numpy as np
 
 def main():
 
@@ -32,8 +32,8 @@ def main():
     args = parser.parse_args()
 
     if args.input_contig and args.contig_alignment and args.vcf_file and args.reference_alignment:
-        fa_dict = read_fa(args.input_contig)
-        process_loc(args.contig_alignment, 'preprocessed.blastn')
+        fa_dict = read_fa(args.input_contig)                                                             # return dict[title]=seq
+        process_loc(args.contig_alignment, 'preprocessed.blastn')                                        
         G = get_graph_from_loc('preprocessed.blastn')
         con_profile = read_vcf_profile(args.vcf_file, fa_dict)
         align_dict = get_aligned_contigs(args.reference_alignment)
@@ -62,18 +62,34 @@ def main():
     all_windows = sorted(all_windows, key=lambda win: (win.length, np.mean(win.coverage)), reverse=True)
     output_windows(all_windows, align_dict, ref_dict, 'windows_all.txt')
 
+
+
+    file_in = open("windows_all.txt")
+    cnt = 0
+    tmp = []
+    for line in file_in.readlines():
+        if line[0] == ">":
+            if cnt != 0:
+                tmp.append(cnt)
+            cnt=0
+        else:
+            cnt+=1
+
+    counts = np.bincount(tmp)
+    k = np.argmax(counts)
+    print "number of cluter: " +str(k)
     ## clustering
     windows_list = get_subcontigs_from_windows(all_windows, align_dict)
-    print len(windows_list)
+    print "length of the windows: " + str(len(windows_list))  
 
     groups_duplicate_windows_list = find_duplicate_windows(windows_list)
-    print len(groups_duplicate_windows_list)
+    print "length of the groups duplicate windows: " + str(len(groups_duplicate_windows_list)) 
     #output_groups_windows(groups_duplicate_windows_list, align_dict, "Duplicate_windows.txt")
 
     non_dup_list = get_longest_non_duplicate_windows(groups_duplicate_windows_list)
     #output_non_dup_windows(non_dup_list, align_dict, 'Non_duplicate_windows.txt')
 
-    cluster, distribution, adjust_cluster = EM_cluster_gibbs(non_dup_list, 5, args.bin_number)
+    cluster, distribution, adjust_cluster = EM_cluster_gibbs(non_dup_list, k, args.bin_number)
     output_cluster(cluster, distribution, align_dict, ref_dict, args.bin_number, 'EM_clusters.txt')
 
 if __name__ == '__main__':
