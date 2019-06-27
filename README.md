@@ -19,11 +19,20 @@ git clone https://github.com/chjiao/VirBin.git
 ```
 
 ## Running example
+You can test your program by running the following commands:
 ```
 cd VirBin   
 python VirBin.py -contig data/hiv5_contigs.fa -align data/hiv5_contigs_align.blastn 
 -vcf data/hiv5_contig_align_0.9.vcf  -ref data/hiv5_ref_align.blastn   
 ```
+If everything is good, you will see this information on your terminal
+```
+143
+68
+52
+Iteration: 4  
+```
+After running the commands above, there are four files output from the VirBin: contigs_windows.txt, windows_all.txt, preprocessed.blastn, EM_clusters.txt. The information of each windows is stored in contigs_windows.txt and windows_all.txt. The information of the final clusters is stored in EM_clusters.txt.
 
 # The whole pipeline   
 ## Dependencies
