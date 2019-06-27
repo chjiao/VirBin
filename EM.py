@@ -271,7 +271,7 @@ def EM_cluster_gibbs(win_list, k, bin_num):
             # if len(win)!=k or win[0].length<10:
             continue
         tmp_win_list.append(win)
-    print len(tmp_win_list)
+    # print len(tmp_win_list)
 
     # initialization
     for win in tmp_win_list:
