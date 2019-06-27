@@ -43,7 +43,7 @@ def output_windows(all_windows, align_dict, ref_dict, file_name):
                 abund_mean = np.mean(win.abundance[i][win.start - 1:win.end])
                 cov_sum = np.sum(win.coverage[i][win.start - 1:win.end])
                 tmp_results.append([con, ref, abund_mean, cov_sum])
-        tmp_results = sorted(tmp_results, key=lambda win: win[2], reverse=True)  # desending
+        tmp_results = sorted(tmp_results, key=lambda win: win[2], reverse=True)  # descending
 
         flag = 0
         if len(tmp_results) == len(sort_ref) and win.length > 10:
