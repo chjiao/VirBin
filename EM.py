@@ -310,7 +310,6 @@ def EM_cluster_gibbs(win_list, k, bin_num):
             cov_array = np.array([])
             for con in group:
                 cov_array = np.append(cov_array, bin_num * con.abundance)
-                pdb.set_trace()
             if len(cov_array) == 0:
                 pdb.set_trace()
             distribute_tmp = get_distribution(cov_array)  # function
