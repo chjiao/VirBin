@@ -22,8 +22,7 @@ git clone https://github.com/chjiao/VirBin.git
 You can test your program by running the following commands:
 ```
 cd VirBin   
-python VirBin.py -contig data/hiv5_contigs.fa -align data/hiv5_contigs_align.blastn 
--vcf data/hiv5_contig_align_0.9.vcf  -ref data/hiv5_ref_align.blastn   
+python VirBin.py -contig data/hiv5_contigs.fa -align data/hiv5_contigs_align.blastn -vcf data/hiv5_contig_align_0.9.vcf  -ref data/hiv5_ref_align.blastn   
 ```
 If everything is good, you will see this information on your terminal
 ```
@@ -58,11 +57,17 @@ python ./tools/get_locations_single_blastn.py contig.fa contig_align.blastn
 ```
 python ./tools/get_locations_two_fas_blastn.py contig.fa reference.fa contig_ref_align.blastn
 ```
+4. Run get_cluster_number.py (option)
+If you **only** want to know the number of cluster, you can run the following command.
+```
+python VirBin.py -contig contig.fa -align contig_align.blastn -vcf Reads_align_on_contig.vcf -ref contig_ref_align.blastn
+```
 
-4. Run VirBin.py
+5. Run VirBin.py
+The program will automatically decide the number of cluster and run the EM algorithm. Run as the following command.
 ```
-python VirBin.py -contig contig.fa -align contig_align.blastn 
--vcf Reads_align_on_contig.vcf -ref contig_ref_align.blastn
+python VirBin.py -contig contig.fa -align contig_align.blastn -vcf Reads_align_on_contig.vcf -ref contig_ref_align.blastn
 ```
+
 
 
