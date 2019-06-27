@@ -27,9 +27,9 @@ python VirBin.py -contig data/hiv5_contigs.fa -align data/hiv5_contigs_align.bla
 ```
 If everything is good, you will see this information on your terminal
 ```
-143
-68
-52
+number of cluter: 5
+length of the windows: 143
+length of the groups duplicate windows: 68
 Iteration: 4  
 ```
 After running the commands above, there are four files output from the VirBin: contigs_windows.txt, windows_all.txt, preprocessed.blastn, EM_clusters.txt. The information of each windows is stored in contigs_windows.txt and windows_all.txt. The information of the final clusters is stored in EM_clusters.txt.
