@@ -24,14 +24,14 @@ You can test your program by running the following commands:
 cd VirBin   
 python VirBin.py -contig data/hiv5_contigs.fa -align data/hiv5_contigs_align.blastn -vcf data/hiv5_contig_align_0.9.vcf  -ref data/hiv5_ref_align.blastn   
 ```
-If everything is good, you will see this information on your terminal
+If everything is good, you will see the information below on your terminal
 ```
 number of cluter: 5
 length of the windows: 143
 length of the groups duplicate windows: 68
 Iteration: 4  
 ```
-After running the commands above, there are four files output from the VirBin: contigs_windows.txt, windows_all.txt, preprocessed.blastn, EM_clusters.txt. The information of each windows is stored in contigs_windows.txt and windows_all.txt. The information of the final clusters is stored in EM_clusters.txt.
+After running the commands above, there are four output files: contigs_windows.txt, windows_all.txt, preprocessed.blastn, EM_clusters.txt. The information of each windows is stored in contigs_windows.txt and windows_all.txt. The information of the final clusters is stored in EM_clusters.txt.
 
 # The whole pipeline   
 ## Dependencies
@@ -60,11 +60,11 @@ python ./tools/get_locations_two_fas_blastn.py contig.fa reference.fa contig_ref
 4. Run get_cluster_number.py (option)
 If you **only** want to know the number of cluster, you can run the following command.
 ```
-python VirBin.py -contig contig.fa -align contig_align.blastn -vcf Reads_align_on_contig.vcf -ref contig_ref_align.blastn
+python get_cluster_number.py -contig contig.fa -align contig_align.blastn -vcf Reads_align_on_contig.vcf -ref contig_ref_align.blastn
 ```
 
 5. Run VirBin.py
-The program will automatically decide the number of cluster and run the EM algorithm. Run as the following command.
+VirBin will automatically decide the number of cluster. So you can run the program without the number of cluster using the following command.
 ```
 python VirBin.py -contig contig.fa -align contig_align.blastn -vcf Reads_align_on_contig.vcf -ref contig_ref_align.blastn
 ```
